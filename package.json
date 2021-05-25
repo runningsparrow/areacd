@@ -10,6 +10,7 @@
     "jsonfile": "^6.1.0",
     "koa-bodyparser": "^4.3.0",
     "mysql2": "^2.2.5",
+    "node-xlsx": "^0.16.1",
     "sequelize": "^6.6.2"
   },
   "devDependencies": {
