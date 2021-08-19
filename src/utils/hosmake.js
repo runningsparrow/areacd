@@ -43,20 +43,35 @@ var hosmake = /** @class */ (function () {
     //输入
     hosmake.prototype.readhdata = function (hosdata, cityfile) {
         return __awaiter(this, void 0, void 0, function () {
-            var xlsx, sheets;
+            var jsonfile, xlsx, sheets;
             return __generator(this, function (_a) {
-                xlsx = require('node-xlsx');
-                sheets = xlsx.parse(hosdata);
-                sheets.forEach(function (sheet) {
-                    console.log(sheet['name']);
-                    // 读取每行内容
-                    for (var rowId in sheet['data']) {
-                        console.log(rowId);
-                        var row = sheet['data'][rowId];
-                        console.log(row);
-                    }
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        jsonfile = require('jsonfile');
+                        return [4 /*yield*/, jsonfile.readFile(cityfile)
+                                .then(function (obj) {
+                                console.dir(obj);
+                            })
+                            //医院数据
+                            // 解析得到文档中的所有 sheet
+                        ];
+                    case 1:
+                        _a.sent();
+                        xlsx = require('node-xlsx');
+                        sheets = xlsx.parse(hosdata);
+                        return [4 /*yield*/, sheets.forEach(function (sheet) {
+                                console.log(sheet['name']);
+                                // 读取每行内容
+                                for (var rowId in sheet['data']) {
+                                    console.log(rowId);
+                                    var row = sheet['data'][rowId];
+                                    console.log(row);
+                                }
+                            })];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };

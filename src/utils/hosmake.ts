@@ -9,7 +9,11 @@ export default class hosmake {
     async readhdata(hosdata,cityfile){
 
         //省份数据
-        
+        const jsonfile = require('jsonfile')
+        await jsonfile.readFile(cityfile)
+        .then(obj =>{
+            console.dir(obj);
+        })
 
 
         //医院数据
@@ -17,7 +21,7 @@ export default class hosmake {
         var xlsx = require('node-xlsx');
         var sheets = xlsx.parse(hosdata);
 
-        sheets.forEach(sheet => {
+        await sheets.forEach(sheet => {
 
             console.log(sheet['name']);
 
