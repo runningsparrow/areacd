@@ -48,27 +48,82 @@ var hosmake = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         jsonfile = require('jsonfile');
-                        return [4 /*yield*/, jsonfile.readFile(cityfile)
-                                .then(function (obj) {
-                                console.dir(obj);
-                            })
-                            //医院数据
-                            // 解析得到文档中的所有 sheet
-                        ];
-                    case 1:
-                        _a.sent();
                         xlsx = require('node-xlsx');
                         sheets = xlsx.parse(hosdata);
                         return [4 /*yield*/, sheets.forEach(function (sheet) {
                                 console.log(sheet['name']);
+                                var _loop_1 = function () {
+                                    console.log(rowId);
+                                    row = sheet['data'][rowId];
+                                    console.log("==================");
+                                    console.log(row);
+                                    console.log("++++++++++++++++++");
+                                    // for(var colId in row){
+                                    //     console.log(colId)
+                                    //     console.log(row[colId])
+                                    // }
+                                    //省份数据
+                                    //init
+                                    var hostdt = {};
+                                    var ProvinceCodetemp = 31;
+                                    var ProvinceNametemp = "";
+                                    var CityCodetemp = 310;
+                                    var CityName = "";
+                                    jsonfile.readFile(cityfile)
+                                        .then(function (obj) {
+                                        for (var provindex in obj) {
+                                            // console.dir(obj[provindex])
+                                            var str = row[2];
+                                            var reg = obj[provindex]["label"];
+                                            console.dir("=============");
+                                            console.dir(str);
+                                            console.dir(obj[provindex]["label"]);
+                                            console.dir("============");
+                                            var res = str.match(reg);
+                                            if (res) {
+                                                ProvinceCodetemp = obj[provindex]["value"];
+                                                ProvinceNametemp = obj[provindex]["label"];
+                                                ///////////
+                                                var dt = new Date();
+                                                //赋值数据库表
+                                                hostdt = {
+                                                    Pid: -1,
+                                                    Name: row[0],
+                                                    Value: row[8],
+                                                    Desc: row[6],
+                                                    ProvinceCode: ProvinceCodetemp,
+                                                    ProvinceName: ProvinceNametemp,
+                                                    CityCode: CityCodetemp,
+                                                    CityName: CityName,
+                                                    ClassifyId: -1,
+                                                    LevelId: -1,
+                                                    Address: row[2],
+                                                    Phone: row[5],
+                                                    BedQuantity: 0,
+                                                    DoctorQuantity: 0,
+                                                    CreateDateTime: dt.toString(),
+                                                    CreateUserId: 1,
+                                                    EditDateTime: dt.toString(),
+                                                    EditUserId: 1,
+                                                    StatusId: 1,
+                                                    StatusName: "正常",
+                                                    StatusValue: 1
+                                                };
+                                                console.dir(hostdt);
+                                                //
+                                                break;
+                                            }
+                                        }
+                                    });
+                                    console.log("==================");
+                                };
+                                var row;
                                 // 读取每行内容
                                 for (var rowId in sheet['data']) {
-                                    console.log(rowId);
-                                    var row = sheet['data'][rowId];
-                                    console.log(row);
+                                    _loop_1();
                                 }
                             })];
-                    case 2:
+                    case 1:
                         _a.sent();
                         return [2 /*return*/];
                 }
